@@ -4,17 +4,28 @@ import BurgerIngredient from './BurgerIngredient';
 
 const burger = (props) => {
 
-  return(
-    <div className="Burger">
-      <BurgerIngredient type='bread-top' />
-      <BurgerIngredient type='bacon' />
-      <BurgerIngredient type='cheese' />
-      <BurgerIngredient type='meat' />
-      <BurgerIngredient type='bread-bottom' />
-    </div>
-  );
+  let ig = Object.keys(props.ingredients)
+  .map( igKey => {
+    return [...Array( props.ingredients[igKey] )].map( ( _, i ) => {
+      return <BurgerIngredient key={igKey + i} type={igKey} />;
+    } )})
+    .reduce( (arr, el) => {
+      return arr.concat(el)
+    }, [] );
 
-};
+    if (ig.length === 0) {
+      ig = <p>Please start adding ingredients!</p>;
+    }
+
+      return(
+        <div className="Burger">
+          <BurgerIngredient type='bread-top'/>
+          {ig}
+          <BurgerIngredient type='bread-bottom'/>
+        </div>
+      );
+
+    };
 
 
-export default burger;
+    export default burger;
